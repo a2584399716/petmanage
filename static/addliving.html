@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>新增商品</title>
+    <link rel="stylesheet" href="./lib/layui/css/layui.css" media="all">
+
+    <style>
+        .layui-input {
+            height: 30px;
+        }
+
+        /* layui-input 默认太高了，这里固定高度*/
+        label.required:before { /* 给红色的必填项打红色星号（文字后）如果打前面用before*/
+            content: ' *';
+            color: red;
+        }
+    </style>
+
+</head>
+<body>
+<form class="layui-form" id="form1" >
+    <br>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">宠物名称</label>
+        <div class="layui-input-inline">
+            <input type="text" name="living_name" required lay-verify="required" placeholder="请输入宠物名称" autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">宠物品种</label>
+        <div class="layui-input-block" style="width: 190px;">
+            <select name="varietie_id" id="varietie_id"  required lay-verify="required">
+                <option value=""></option>
+            </select>
+            <p style="font-size: 12px;">(没找到品种？请 <a style="color: #409eff" href="">新增品种</a>)</p>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label required">宠物性别</label>
+        <div class="layui-input-block" style="width: 190px;">
+            <select name="living_sex" id="living_sex"  required lay-verify="required">
+                <option value=""></option>
+                <option value="1">弟弟</option>
+                <option value="2">妹妹</option>
+            </select>
+
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label required">宠物状态</label>
+        <div class="layui-input-block" style="width: 190px;">
+            <select name="living_state" id="living_state"  required lay-verify="required">
+                <option value="1" selected>未售出</option>
+                <option value="2">已售出</option>
+            </select>
+
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label required">成本价</label>
+            <div class="layui-input-inline">
+                <input type="text" name="cost_price" required lay-verify="required" placeholder="￥" autocomplete="off"
+                       class="layui-input">
+            </div>
+
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label required">零售价</label>
+            <div class="layui-input-inline">
+                <input type="text" name="selling_price" required lay-verify="required" placeholder="￥"
+                       autocomplete="off" class="layui-input">
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
+<script type="text/javascript" src="./js/jquery-3.6.0.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="./js/jquery.form.js" charset="utf-8"></script>
+<script>
+    layui.use('form', function () {
+        var form = layui.form;
+
+        //各种基于事件的操作，下面会有进一步介绍
+        //监听提交
+        form.on('submit(formDemo)', function (data) {
+            $(function () {
+                $.ajax({
+                    url: 'http://localhost:8080/addliving',
+                    type: 'post',
+                    data: JSON.stringify(data.field),
+                    dataType: "json",
+                    contentType: 'application/json;charset=UTF-8',
+                    success: function (data) {
+                        console.log(data)
+                        if (data.code === 1000) {
+                            layer.msg("添加成功！", {icon:1,time:1000}, function(){
+                                var index = parent.layer.getFrameIndex(window.name);
+                                parent.location.reload(); //刷新父页面
+                                parent.layer.close(index);
+                            });
+
+                        }else if (data.code === 1006){
+                            layer.msg("商品名重复,请重新输入！")
+                        } else {
+                            layer.msg("添加失败！")
+                        }
+                    },
+                    error: function (e) {
+                        layer.alert("添加失败！")
+                    },
+
+                });
+            });
+
+
+            return false;
+        });
+
+    });
+
+</script>
+<script>
+    layui.use('form', function () {
+        var form = layui.form;
+        var $ = layui.$;
+        $.ajax({
+            url: "http://localhost:8080/getvarietielist",
+            dataType: 'json',
+            type: 'get',
+            success: function (data) {
+                msg = data.data
+                $.each(msg, function (index, item) {
+
+                    $('#varietie_id').append(new Option(item.varietie_name, item.varietie_id));
+
+                })
+
+                layui.form.render("select");
+            }
+        })
+
+    });
+</script>
+</body>
+</html>

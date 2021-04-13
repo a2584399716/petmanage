@@ -1,0 +1,566 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0" />
+
+<title>收银台</title>
+<link rel="stylesheet" href="scripts/miniui/themes/default/miniui.css">
+<link rel="stylesheet" href="layui/css/layui.css" />
+<link rel="stylesheet" href="css/common.css">
+</head>
+<body style="background: #F6F7F9;">
+<div class="main">
+	<div class="layui-row">
+		<div class="main_left layui-col-xs12 layui-col-md3">
+			<div class="layui-row">
+				<div class="top">
+					<i class="layui-icon layui-icon-app"></i>商品列表
+				</div>
+				<div class="left_main">
+					<input id="key" type="text" class="mini-textbox" class="layui-input"  onenter="onKeyEnter" placeholder="请输入商品名"/>
+
+    				<a class="mini-button" onclick="search()">查询</a> 
+    				<ul id="tree1" class="mini-tree" url="http://localhost:8080/getcashierlist" showTreeIcon="true" textField="name" idField="id" expandOnLoad="true" onNodeClick="onNodeClick">
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="main_right layui-col-xs12 layui-col-md9">
+			<div class="layui-row">
+				<div class="top">
+					<label>商品编码：</label>
+					<div class="layui-input-inline">
+						<input type="text" name="title" required lay-verify="required" placeholder="扫码或手动输入商品编码" autocomplete="off" class="layui-input">
+					</div>
+					<div class="layui-input-inline">
+						<button class="layui-btn layui-btn-primary" style="vertical-align: middle;margin-bottom: 2px;">添加</button>
+					</div>
+				</div>
+				<div class="goods_list">
+					<table class="layui-table">
+						<thead>
+							<tr>
+								<th lay-data="{field:'id'}">商品编码</th>
+								<th lay-data="{field:'name'}">商品名称</th>
+								<th lay-data="{field:'price', edit: 'text'}">零售价（元）</th>
+								<th lay-data="{field:'number', edit: 'text'}">数量</th>
+								<!--<th lay-data="{field:'staff', edit: 'text'}">提成员工</th>-->
+								<th lay-data="{field:'remarks', edit: 'text'}">备注</th>
+								<th lay-data="{field:'operation'}">操作</th>
+							</tr>
+						</thead>
+						<tbody id="myTbody">
+							
+						</tbody>
+					</table>
+				</div>
+				<div class="total ft16">
+					合计：【<span> 消费总金额：<i class="totalMoney">0.00</i> </span>】【<span> 消费总数量：<i class="totalQuantity">0</i> </span>】【 <span> 总积分：<i class="totalIntegral">0</i> </span>】
+				</div>
+				<table class="reading layui-table" lay-even="">
+					<tbody>
+						<tr>
+							<td>会员查找</td>
+							<td colspan="3">
+								<div id="user_name" class="layui-input-inline" ></div>
+								<button class="card_reading layui-btn" onclick="getuserinfo()">读卡</button>
+								<a href="#" class="registration layui-btn layui-btn-primary">会员登记</a>
+							</td>
+						</tr>
+						<tr>
+							<td>会员卡号：</td>
+							<td>
+								<div class="layui-input-inline">
+									<input type="text" id="phone"   autocomplete="off" class="layui-input">
+								</div>
+							</td>
+
+						</tr>
+						<tr>
+							<td>会员姓名：</td>
+							<td>
+								<div class="layui-input-inline">
+									<input type="text" id="name"   autocomplete="off" class="layui-input">
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>会员余额：</td>
+							<td><div class="layui-input-inline">
+									<input type="text" id="balance"   autocomplete="off" class="layui-input">
+								</div></td>
+
+						</tr>
+
+					</tbody>
+				</table>
+				<div class="towbtn">
+					<input type="submit" id="settlement" value="结算">
+					<input type="reset" value="清空" />
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="mask_box">
+	<div class="mask"></div>
+	<div class="box">
+		<div class="box_top">结算</div>
+		<div class="box_block box_block1">
+			<div class="block_left"><label for="">应付金额：</label></div>
+			<div class="block_right"><input type="text" class="layui-input" value="23131" readonly style="border: none;" /></div>
+		</div>
+		<div class="box_block box_block2">
+			<div class="block_left"><input type="checkbox" name="" />优惠券：</div>
+			<div class="block_right">
+				<select class="layui-select" name="" id="">
+					<option value="0">请选择</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+				</select>
+			</div>
+			<div class="block_left">还需支付：</div>
+			<div class="block_right"><input type="text" class="layui-input" value="32432" readonly style="border: none;" /></div>
+		</div>
+		<div class="box_block box_block3">
+			<div class="block_left"><input type="radio" name="payment" /><label for="use_coupon">现金支付：</label></div>
+			<div class="block_right">
+				<input type="text" class="layui-input" />
+			</div>
+			<br style="clear: both;">
+			<div class="block_left"><input type="radio" name="payment" /><label for="use_coupon">移动支付：</label></div>
+			<div class="block_right">
+				<input type="text" class="layui-input" />
+			</div>
+			<br style="clear: both;">
+			<div class="block_left"><input type="radio" name="payment" /><label for="use_coupon">其他支付：</label></div>
+			<div class="block_right">
+				<input type="text" class="layui-input" />
+			</div>
+		</div>
+		<div class="remark_mess">
+			<div class="block_left">
+				备注：
+			</div>
+			<div class="block_right">
+				<textarea class="layui-textarea" name="" rows="" cols="" maxlength="200" placeholder="最多输入200字符"></textarea>
+			</div>
+			<br style="clear: both;">
+			<div class="block_left">
+
+			</div>
+
+		</div>
+		<div class="bot">
+			<input type="submit" value="提交">
+			<input type="text" value="取消">
+		</div>
+	</div>
+</div>
+<script src="http://www.jq22.com/jquery/jquery-2.1.1.js"></script>
+<script src="scripts/miniui/miniui.js"></script>
+<script src="layui/layui.js"></script>
+<script>
+	$(function() {
+		$("#settlement").click(function(){
+			$(".mask_box").show();
+		})
+		$(".bot input:nth-child(2)").click(function(){
+			$(".mask_box").hide();
+		})
+	})
+	
+	/*miniui - tree 插件 - 开始*/
+	mini.parse();
+    var tree = mini.get("tree1");
+    function search() {
+        var key = mini.get("key").getValue();
+        if (key == "") {
+            tree.clearFilter();
+        } else {
+            key = key.toLowerCase();                
+            tree.filter(function (node) {
+                var name = node.name ? node.name.toLowerCase() : "";
+                if (name.indexOf(key) != -1) {
+                    return true;
+                }
+            });
+        }
+    }
+    function onKeyEnter(e) {
+        search();
+    }
+
+    var totalQuantity = 0;    //总数量
+	var totalMoney = 0;       //总金额
+	// var totalIntegral = 0;    //总积分
+	function onNodeClick(){  
+		//获取选中节点的值
+		var flag = false;
+  		var tree=mini.get("tree1");
+        node=tree.getSelectedNode();
+  		
+  		if(node.end){
+  			/*树结构选中商品，table列表变化 - 开始*/
+	        totalQuantity++;
+	        $('.totalQuantity').html(totalQuantity);
+	        
+	        this_price = node.price; //获取单价
+	        this_price = parseFloat(this_price);
+	        totalMoney += this_price;
+	        $('.totalMoney').html(totalMoney.toFixed(2));
+	        
+	        // this_integral = node.integral; //获取积分
+	        // this_integral = parseFloat(this_integral);
+	        // totalIntegral += this_integral;
+	        // $('.totalIntegral').html(totalIntegral.toFixed(0));
+  			/*树结构选中商品，table列表变化 - 结束*/
+  			
+  			if($("#myTbody tr").length <= 0){
+  				var addtr = '<tr class="mytr">';
+				addtr += '<td>'+node.id+'</td>';
+				addtr += '<td>'+node.name+'</td>'	;					
+				addtr += '<td class="kbj danjia">'+node.price+'</td>';
+				addtr += '<td class="numberTd"><div class="jiajian"><span class="jian" onclick="num_sub(this)">-</span><input type="text" value="1" class="num"><span class="jia" onclick="num_add(this)">+</span></div></td>';
+				// addtr += '<td class="jifen">'+node.integral+'</td>';
+				addtr += '<td class="kbj remarks"></td>';						
+				addtr += '<td><button class="delete_btn">删除</button></td>';						
+				addtr += '</tr>';
+				$("#myTbody").append(addtr);
+				return;
+  			}else{          
+				$("#myTbody tr").each(function () {
+                    //找到商品的名称与上面获取到的商品名称进行对比
+                    if ($(this).children("td:eq(0)").html() == node.id) {
+                        //找到此商品的数量
+                        var count = parseInt($(this).children("td:eq(3)").find("input").val());
+                        count++;
+                        $(this).children("td:eq(3)").find("input").val(count); //对商品的数量进行重新赋值
+						flag = true;
+                        return false;
+                    }else {
+                        flag = false;
+                    }
+                })
+  			}
+			//如果为默认值也就是说里面没有此商品，所以添加此商品。
+			if (flag == false) {
+				var addtr = '<tr class="mytr">';
+				addtr += '<td>'+node.id+'</td>';
+				addtr += '<td>'+node.name+'</td>'	;					
+				addtr += '<td class="danjia">'+node.price+'</td>';
+				addtr += '<td><div class="jiajian"><span class="jian" onclick="num_sub(this)">-</span><input type="text" value="1" class="num"><span class="jia" onclick="num_add(this)">+</span></div></td>';
+				// addtr += '<td class="jifen">'+node.integral+'</td>';
+				addtr += '<td class="remarks"></td>';						
+				addtr += '<td><button class="delete_btn">删除</button></td>';						
+				addtr += '</tr>';
+				$("#myTbody").append(addtr);
+			}
+  		}
+	}
+	/*miniui - tree 插件 - 结束*/
+	
+	//加的效果 
+	function num_add(on_this){
+		
+		var totalQuantity = 0;    //总数量
+		var totalMoney = 0;       //总金额
+		// var totalIntegral = 0;    //总积分
+		$("#myTbody tr").each(function(){
+			
+	        //获取当前行的单价
+	        this_price = $(this).children(".danjia").text();
+	        this_price = parseFloat(this_price);
+	        
+	        //获取当前行的积分
+	        // this_integral = $(this).children(".jifen").text();
+        	// this_integral = parseFloat(this_integral);
+        	
+        	//获取当前行的数量
+        	this_num = $(this).find(".num").val();
+        	this_num = parseInt(this_num);
+        	
+        	//获取当前行的总价格、总积分
+        	var trmoney = this_price*this_num;
+        	// var trIntegral = this_integral*this_num;
+
+        	//总金额、总数量、总积分
+        	totalQuantity += this_num*1;   //总数量
+        	totalMoney += trmoney*1        //总金额
+        	// totalIntegral += trIntegral*1  //总积分
+		}) 
+		$(".totalQuantity").html(totalQuantity);
+		$(".totalMoney").html(totalMoney); 
+		// $(".totalIntegral").html(totalIntegral);
+		
+        this_price = $(on_this).parents("td").siblings("td.danjia").text();//获取单价
+        this_price = parseFloat(this_price);
+        console.log(totalMoney);
+        totalMoney += this_price;
+        $('.totalMoney').html(totalMoney.toFixed(2));
+        console.log(totalMoney);
+        
+        // this_integral = $(on_this).parents("td").siblings("td.jifen").text();//获取积分
+        // this_integral = parseFloat(this_integral);
+        // totalIntegral += this_integral;
+        // $('.totalIntegral').html(totalIntegral.toFixed(0));
+		
+		//当前商品数量
+        this_num = $(on_this).siblings('.num');
+        var get_this_num = parseInt(this_num.val())+1;
+        this_num.val(get_this_num);
+        
+        totalQuantity++;
+        $('.totalQuantity').html(totalQuantity);
+    }
+	
+	//减的效果  
+	function num_sub(on_this){
+        
+        var totalQuantity = 0;    //总数量
+		var totalMoney = 0;       //总金额
+		// var totalIntegral = 0;    //总积分
+		$("#myTbody tr").each(function(){
+			
+	        //获取当前行的单价
+	        this_price = $(this).children(".danjia").text();
+	        this_price = parseFloat(this_price);
+	        
+	        //获取当前行的积分
+	        // this_integral = $(this).children(".jifen").text();
+        	// this_integral = parseFloat(this_integral);
+        	
+        	//获取当前行的数量
+        	this_num = $(this).find(".num").val();
+        	this_num = parseInt(this_num);
+        	
+        	//获取当前行的总价格、总积分
+        	var trmoney = this_price*this_num;
+        	// var trIntegral = this_integral*this_num;
+        	
+        	//总金额、总数量、总积分
+        	totalQuantity += this_num*1;   //总数量
+        	totalMoney += trmoney*1        //总金额
+        	// totalIntegral += trIntegral*1  //总积分
+		}) 
+		$(".totalQuantity").html(totalQuantity);
+		$(".totalMoney").html(totalMoney); 
+		// $(".totalIntegral").html(totalIntegral);
+        
+        //当前商品数量
+        this_num = $(on_this).siblings('.num');
+        if(this_num.val() <= 1){
+            this_num.siblings('.jian').removeAttr('onclick');
+            return;
+        }else{
+        	var get_this_num = this_num.val()-1;
+	        this_num.val(get_this_num);
+	        
+	        this_price = $(on_this).parents("td").siblings("td.danjia").text();//获取单价
+	        totalMoney -= this_price;
+	        $('.totalMoney').html(totalMoney.toFixed(2));
+	        
+	        // this_integral = $(on_this).parents("td").siblings("td.jifen").text();//获取积分
+	        // totalIntegral -= this_integral;
+	        // $('.totalIntegral').html(totalIntegral.toFixed(0));
+	        
+	        totalQuantity--;
+	        $('.totalQuantity').html(totalQuantity);	
+        }
+    }
+	
+	//输入商品数量时改变合计的内容
+	$("#myTbody").on("keyup",".num",function(){
+		if($(this).val()==''){
+            $(this).val('1');
+        }
+        $(this).val($(this).val().replace(/\D|^0/g,''));
+		setTotal();	
+	})
+	
+	//点击 - 备注 - 可编辑
+	$("#myTbody").on("click","td.remarks",function(){
+		if(!$(this).is('.bj')){       
+			$(this).addClass('bj').html('<textarea class="layui-textarea" value="'+$(this).val()+'" />').find('textarea').focus().blur(function(){$(this).parent().removeClass('bj').html($(this).val())});    
+		} 
+	})
+	
+	//点击 - 单价 - 可编辑
+	$("#myTbody").on("click","td.danjia",function(){
+		if(!$(this).is('.bj')){   
+			var currentPrice = $(this).html();
+			$(this).focus();
+			$(this).addClass('bj').html('<input type="tel" class="layui-input" value="'+$(this).text()+'" />').find('input').focus().blur();    
+		} 
+	})
+	//输入商品价格时改变合计的内容
+	$("#myTbody").on("change",".danjia input",function(){
+		var $this = $(this).val();
+		var reg = /^(([1-9]+)|([0-9]+\.[0-9]{1,2}))$/;
+		if(!reg.test($this)){
+			alert("请输入非负浮点数");
+			$(this).parent().removeClass('bj').html($this||"1.00");
+			$(this).val(currentPrice);
+	    }else{
+	    	$(this).parent().removeClass('bj').html($this||"1.00");
+		 	setTotal();
+		}
+	})
+	
+	//table tr 点击删除
+	$("#myTbody").on("click",".delete_btn",function(){
+		if($("#myTbody tr").length < 1){
+			$(".totalQuantity").html("0");
+			$(".totalMoney").html("0"); 
+			// $(".totalIntegral").html("0");
+			return;
+		}
+		
+		$(this).parents("#myTbody tr").remove();
+		setTotal();
+	})
+	
+	function setTotal(){
+		var totalQuantity = 0;    //总数量
+		var totalMoney = 0;       //总金额
+		// var totalIntegral = 0;    //总积分
+		$("#myTbody tr").each(function(){
+			
+	        //获取当前行的单价
+	        this_price = $(this).children(".danjia").text();
+	        this_price = parseFloat(this_price);
+	        
+	        //获取当前行的积分
+	        // this_integral = $(this).children(".jifen").text();
+        	// this_integral = parseFloat(this_integral);
+        	
+        	//获取当前行的数量
+        	this_num = $(this).find(".num").val();
+        	this_num = parseInt(this_num);
+        	
+        	//获取当前行的总价格、总积分
+        	var trmoney = this_price*this_num;
+        	// var trIntegral = this_integral*this_num;
+        	
+        	//总金额、总数量、总积分
+        	totalQuantity += this_num*1;   //总数量
+        	totalMoney += trmoney*1        //总金额
+        	// totalIntegral += trIntegral*1  //总积分
+		}) 
+		$(".totalQuantity").html(totalQuantity);
+		$(".totalMoney").html(totalMoney); 
+		// $(".totalIntegral").html(totalIntegral);
+	}
+</script>
+<script>
+	layui.config({ base: 'layui/lay/modules/' }).extend({
+		selectInput: 'selectInput'
+	}).use(['form', 'selectInput'], function() {
+		var $ = layui.$, form = layui.form, selectInput= layui.selectInput;
+		var ins = selectInput.render({
+			// 容器id，必传参数
+			elem: '#user_name',
+			name: 'user_name', // 渲染的input的name值
+			initValue:'张三', // 渲染初始化默认值
+			placeholder: '请输入会员卡号或姓名', // 渲染的inputplaceholder值
+			// 联想select的初始化本地值，数组格式，里面的对象属性必须为value，name，value是实际选中值，name是展示值，两者可以一样
+			data: [
+				{value: 1111, name: '张三555'},
+				{value: 2333, name: 2222},
+				{value: 2333, name: 2333},
+				{value: 2333, name: 2333},
+			],
+			url: "http://localhost:8080/getcustomerinfo", // 异步加载的url，异步加载联想词的数组值
+			remoteSearch: true,// 是否启用远程搜索 默认是false，和远程搜索回调保存同步
+			// 解析回调，如果你的异步返回的data不是上述的data格式，请在此回调格式成对应的数据格式，回调参数是异步加载的数据
+			parseData: function (data) {
+
+			},
+			error: function (error) { // 异步加载出错的回调 回调参数是错误msg
+
+			},
+			done: function (data) { // 异步加载成功后的回调 回调参数加载返回数据
+
+			},
+			remoteMethod: function (value, cb) { // 远程搜索的回调函数
+				// value 是input实施输入的value值
+				// cb是回调处理函数，请在执行ajax搜索请求成功之后执行此回调函数
+
+				//案例
+				//这里如果val为空, 则不触发搜索
+				if (!value) {
+					return cb([]);
+				}
+				//这里的$.ajax去请求后台拿回数据
+				$.ajax({
+					method: 'get',
+					url: 'http://localhost:8080/getcustomerinfo',
+					data: {
+						info: value,
+					},
+					success: function (data) {
+
+						return cb(data.data)
+
+					}
+				})
+			}
+
+	});
+
+	// 监听input 实时输入事件
+	ins.on('itemInput(user_name)', function (obj) {
+		// console.log(obj);
+	});
+
+	// 监听select 选择事件
+	ins.on('itemSelect(user_name)', function (obj) {
+		var user_id = obj.data
+		$.ajax({
+			method: 'get',
+			url: 'http://localhost:8080/getcustomerinfobyid',
+			data: {
+				id: user_id,
+			},
+			dataytpe:'json',
+			success: function (data) {
+
+				console.log(data.data)
+				document.getElementById("name").value = data.data.name;
+				document.getElementById("phone").value = data.data.phone;
+				document.getElementById("balance").value = data.data.balance;
+			}
+		})
+
+	});
+
+
+	// 如果使用本地数据加载，不要使用设置远程 url参数 也不要将remoteSearch参数设置为 true，完整的本地赋值数据案例
+
+	var ins2 = selectInput.render({
+		elem: '#test1',
+		data: [
+			{value: 1111, name: 1111},
+			{value: 2333, name: 2222},
+			{value: 2333, name: 2333},
+			{value: 2333, name: 2333},
+		],
+		placeholder: '请输入名称',
+		name: 'list_common',
+		remoteSearch: false
+	});
+
+
+	// 这是我项目中的需求做的一个组件，可能存在一些问题，如果有问题可以联系我，也可以去码云提问，有时间我会去看的，会尽量完善这个组件的
+
+	// 2020-10-23 更新：允许value和name值不同，显示用name，取值用value；新增参数initValue，设置input默认初始值
+	});
+</script>
+<script>
+
+</script>
+</body>
+</html>

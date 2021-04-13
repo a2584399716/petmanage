@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-X-admin2.0</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="./css/font.css">
+    <link rel="stylesheet" href="./css/xadmin.css">
+    <script type="text/javascript" src="./js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+
+        .x-so input.layui-input {
+            width: 300px;
+            margin: 10px;
+        }
+
+    </style>
+</head>
+
+<body class="layui-anim layui-anim-up">
+<div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="">首页</a>
+        <a href="">商品服务</a>
+        <a>
+          <cite>商品管理</cite></a>
+      </span>
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"
+       href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:30px">ဂ</i></a>
+</div>
+<div class="x-body">
+
+
+    <div class="layui-tab">
+        <ul class="layui-tab-title">
+            <li class="layui-this">商品管理</li>
+            <li>分类管理</li>
+            <li>适用类型管理</li>
+            <li>供应商管理</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div class="layui-row demoTable1">
+                    <div class="layui-input-inline">
+                        <select name="goodtype" id="demoReload1" style="height: 38px;">
+                            <option selected hidden disabled>请选择分类</option>
+
+                        </select>
+                    </div>
+
+                    <div class="layui-input-inline">
+                        <input type="text" name="name_barcode" id="demoReload2" placeholder="请输入商品名或条形码"
+                               autocomplete="off"
+                               class="layui-input">
+
+                    </div>
+
+
+                    <button class="layui-btn  layui-btn-radius layui-btn-normal" data-type="reload">查询
+                    </button>
+
+                    <button type="button" class="layui-btn layui-btn-radius layui-btn-warm" onclick="winpop1()">
+                        新增商品
+                    </button>
+
+
+                </div>
+
+
+                <table id="demo1" lay-filter="test1"></table>
+                <div id="page1"></div>
+            </div>
+            <div class="layui-tab-item">
+                <div class="layui-row">
+                    <form class="layui-form layui-col-md12 x-so">
+
+
+                        <button type="button" class="layui-btn layui-btn-radius layui-btn-warm" onclick="winpop2()">
+                            新增分类
+                        </button>
+
+
+                    </form>
+
+                </div>
+
+                <table id="demo2" lay-filter="test2"></table>
+            </div>
+            <div class="layui-tab-item">
+                <div class="layui-row">
+                    <form class="layui-form layui-col-md12 x-so">
+
+
+                        <button type="button" class="layui-btn layui-btn-radius layui-btn-warm" onclick="winpop3()" >
+                            新增适用类型
+                        </button>
+
+
+                    </form>
+
+                </div>
+
+                <table id="demo3" lay-filter="test3"></table>
+
+            </div>
+            <div class="layui-tab-item">
+                <div class="layui-row">
+                    <form class="layui-form layui-col-md12 x-so">
+
+
+
+
+                        <button type="button" class="layui-btn layui-btn-radius layui-btn-warm" onclick="winpop4()">
+                            新增供应商
+                        </button>
+
+
+                    </form>
+
+                </div>
+
+                <table id="demo4" lay-filter="test4"></table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        //注意：选项卡 依赖 element 模块，否则无法进行功能性操作
+        layui.use('element', function () {
+            var element = layui.element;
+
+            //…
+        });
+
+        layui.use('layer', function () {
+            var layer = layui.layer;
+
+
+        });
+
+
+        function winpop1() {
+            layer.open({
+                type: 2,
+                title: '添加商品',
+                shadeClose: true,
+                shade: 0.8,
+                area: ['500px', '100%'],
+                content: './addgoods.html' //iframe的url
+            });
+
+        }
+
+        function winpop2() {
+            layer.open({
+                type: 2,
+                title: '添加分类',
+                shadeClose: true,
+                shade: 0.8,
+                area: ['400px', '150px'],
+                content: './addgoodstype.html' //iframe的url
+            });
+
+        }
+        function winpop3() {
+            layer.open({
+                type: 2,
+                title: '添加分类',
+                shadeClose: true,
+                shade: 0.8,
+                area: ['400px', '150px'],
+                content: './addsuitabletype.html' //iframe的url
+            });
+
+        }
+
+        function winpop4() {
+            layer.open({
+                type: 2,
+                title: '添加分类',
+                shadeClose: true,
+                shade: 0.8,
+                area: ['500px', '50%'],
+                content: './addsupplier.html' //iframe的url
+            });
+
+        }
+
+        //--
+    </script>
+
+
+</div>
+<script type="text/html" id="barDemo1">
+
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+
+</script>
+<script type="text/html" id="barDemo2">
+
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+
+</script>
+<script type="text/html" id="barDemo3">
+
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+
+</script>
+<script type="text/html" id="barDemo4">
+
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+
+</script>
+<script>
+    layui.use('table', function () {
+        var table = layui.table;
+
+        //第一个实例
+        table.render({
+            elem: '#demo1'
+            , height: 312
+            , id: 'testReload1'
+            , url: 'http://localhost:8080/getgoodslist' //数据接口
+            , page: true //开启分页
+            , cols: [[ //表头
+                {field: 'good_name', title: '商品名称', width: 200, fixed: 'left'}
+                , {field: 'bar_code', title: '条形码', width: 200}
+                , {field: 'cost_price', title: '成本价', width: 200, sort: true}
+                , {field: 'selling_price', title: '零售价', width: 200, sort: true}
+                , {field: 'good_type_name', title: '商品分类', width: 200}
+                , {field: 'stock', title: '库存量', width: 200, sort: true}
+                , {fixed: 'right', width: 150, align: 'center', toolbar: '#barDemo1'}
+            ]]
+        });
+        //实现搜索功能
+        var $ = layui.$, active = {
+            reload: function () {
+                var demoReload1 = $('#demoReload1');
+                var demoReload2 = $('#demoReload2');
+
+                //执行重载
+                table.reload('testReload1', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    , where: {
+                        "good_type": demoReload1.val()
+                        , "name_barcode": demoReload2.val()
+
+                    }
+                });
+            }
+        };
+        $('.demoTable1 .layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        //第二个实例
+        table.render({
+            elem: '#demo2'
+            , height: 312
+            , url: 'http://localhost:8080/getgoodstype' //数据接口
+            , page: true //开启分页
+            , cols: [[ //表头
+                {field: 'type_name', title: '分类名称', align: 'center',width: 500, fixed: 'left'}
+                , {fixed: 'right', width: 500, align: 'right', toolbar: '#barDemo2'}
+            ]]
+        });
+
+        //第三个实例
+        table.render({
+            elem: '#demo3'
+            , height: 312
+            , url: 'http://localhost:8080/getsuitabletype' //数据接口
+            , page: true //开启分页
+            , cols: [[ //表头
+                {field: 'suitable_name', title: '类型名称', align: 'center',width: 500, fixed: 'left'}
+                , {fixed: 'right', width: 500, align: 'right', toolbar: '#barDemo3'}
+            ]]
+        });
+        //第四个实例
+        table.render({
+            elem: '#demo4'
+            , height: 312
+            , url: 'http://localhost:8080/getsupplier' //数据接口
+            , page: true //开启分页
+            , cols: [[ //表头
+                {field: 'supplier_name', title: '供应商名称', width: 200, fixed: 'left'}
+                , {field: 'contacts', title: '联系人', width: 200}
+                , {field: 'supplier_phone', title: '联系电话', width: 200, sort: true, sort: true}
+                , {field: 'create_time', title: '添加时间', width: 500}
+                , {fixed: 'right', width: 150, align: 'center', toolbar: '#barDemo4'}
+            ]]
+        });
+        //layui 在tab页签里多个table 分页不显示的解决方法
+        $(".layui-table-box").css("height", $(".layui-table-box").css("height"));
+
+    });
+</script>
+<script>
+    layui.use(['layer', 'form', 'table'], function () {
+        $ = layui.jquery;
+        var layer = layui.layer
+            , form = layui.form
+            , table = layui.table;
+        table.on('tool(test1)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            // var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
+            if (layEvent === 'del') { //删除
+                layer.confirm('真的删除行么', function (index) {
+                    //向服务端发送删除指令
+                    $.ajax({
+                        url: 'http://localhost:8080/delgoodsbyid',
+                        method: 'post',
+                        data: {'id': data.good_id},
+                        dataType: 'JSON',
+                        success: function (res) {
+                            if (res.code == '1000') {
+                                layer.msg("删除成功")
+                                obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                                layer.close(index);
+                            } else
+                                layer.msg(res.msg);
+                        },
+                        error: function (data) {
+                            layer.msg("删除失败");
+                        }
+                    });
+
+                });
+            } else if (layEvent === 'edit') { //编辑
+                //do something
+                layer.open({
+                    type: 2,
+                    title: '编辑商品',
+                    shadeClose: true,
+                    shade: 0.8,
+                    area: ['500px', '100%'],
+                    content: './editgoods.html', //iframe的url
+                    success: function (layero, index) {
+                        var iframe = window['layui-layer-iframe' + index];
+                        iframe.child(data);//传的值可以是对象
+                    }
+                });
+                //同步更新缓存对应的值
+
+            } else if (layEvent === 'LAYTABLE_TIPS') {
+                layer.alert('Hi，头部工具栏扩展的右侧图标。');
+            }
+        });
+
+        table.on('tool(test2)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            // var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
+            if (layEvent === 'del') { //删除
+                layer.confirm('真的删除行么', function (index) {
+                    layer.msg(data.good_id)
+                    //向服务端发送删除指令
+                    $.ajax({
+                        url: 'http://localhost:8080/delgoodstypebyid',
+                        method: 'post',
+                        data: {'id': data.type_id},
+                        dataType: 'JSON',
+                        success: function (res) {
+                            if (res.code == '1000') {
+                                layer.msg("删除成功")
+                                obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                                layer.close(index);
+                            } else
+                                layer.msg(res.msg);
+                        },
+                        error: function (data) {
+                            layer.msg("删除失败");
+                        }
+                    });
+
+                });
+            } else if (layEvent === 'LAYTABLE_TIPS') {
+                layer.alert('Hi，头部工具栏扩展的右侧图标。');
+            }
+        });
+
+        table.on('tool(test3)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            // var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
+            if (layEvent === 'del') { //删除
+                layer.confirm('真的删除行么', function (index) {
+                    layer.msg(data.good_id)
+                    //向服务端发送删除指令
+                    $.ajax({
+                        url: 'http://localhost:8080/delsuitabletypebyid',
+                        method: 'post',
+                        data: {'id': data.suitable_id},
+                        dataType: 'JSON',
+                        success: function (res) {
+                            if (res.code == '1000') {
+                                layer.msg("删除成功")
+                                obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                                layer.close(index);
+                            } else
+                                layer.msg(res.msg);
+                        },
+                        error: function (data) {
+                            layer.msg("删除失败");
+                        }
+                    });
+
+                });
+            } else if (layEvent === 'LAYTABLE_TIPS') {
+                layer.alert('Hi，头部工具栏扩展的右侧图标。');
+            }
+        });
+
+        table.on('tool(test4)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            // var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
+            if (layEvent === 'del') { //删除
+                layer.confirm('真的删除行么', function (index) {
+                    layer.msg(data.good_id)
+                    //向服务端发送删除指令
+                    $.ajax({
+                        url: 'http://localhost:8080/delsupplierbyid',
+                        method: 'post',
+                        data: {'id': data.supplier_id},
+                        dataType: 'JSON',
+                        success: function (res) {
+                            if (res.code == '1000') {
+                                layer.msg("删除成功")
+                                obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                                layer.close(index);
+                            } else
+                                layer.msg(res.msg);
+                        },
+                        error: function (data) {
+                            layer.msg("删除失败");
+                        }
+                    });
+
+                });
+            } else if (layEvent === 'edit') { //编辑
+                //do something
+                layer.open({
+                    type: 2,
+                    title: '编辑供应商',
+                    shadeClose: true,
+                    shade: 0.8,
+                    area: ['500px', '100%'],
+                    content: './editsupplier.html', //iframe的url
+                    success: function (layero, index) {
+                        var iframe = window['layui-layer-iframe' + index];
+                        iframe.child(data);//传的值可以是对象
+                    }
+                });
+                //同步更新缓存对应的值
+                obj.update({
+                    username: '123'
+                    , title: 'xxx'
+                });
+            } else if (layEvent === 'LAYTABLE_TIPS') {
+                layer.alert('Hi，头部工具栏扩展的右侧图标。');
+            }
+        });
+    })
+</script>
+
+<script>
+    layui.use('form', function () {
+        var form = layui.form;
+        var $ = layui.$;
+        $.ajax({
+            url: "http://localhost:8080/getgoodstype",
+            dataType: 'json',
+            type: 'get',
+            success: function (data) {
+                msg = data.data
+                $.each(msg, function (index, item) {
+
+                    $('#demoReload1').append(new Option(item.type_name, item.type_id));
+
+                })
+
+                layui.form.render("select");
+            }
+        })
+
+    });
+</script>
+</body>
+
+</html>

@@ -1,0 +1,58 @@
+
+[
+	{id: "A", name: "第一层", price: "12.50",
+		children: [
+			{id: "A-1", name: "高中课程",
+				children: [
+					{id: "A-1-1", name: "语文",
+						children: [
+							{id: "A-1-1-01", name: "李白", price: "1",  end: "true"},
+							{id: "A-1-1-02", name: "杜甫", price: "3", integral: "1", end: "true"},
+							{id: "A-1-1-03", name: "王昌龄", price: "4", integral: "1", end: "true"},
+							{id: "A-1-1-04", name: "孟浩然", price: "5", integral: "1", end: "true"},
+							{id: "A-1-1-05", name: "韦应物", price: "2", integral: "1", end: "true"},
+							{id: "A-1-1-06", name: "李商隐", price: "6", integral: "1", end: "true"},
+						]
+					},
+					{id: "A-1-2", name: "数学",
+						children: [
+							{id: "A-1-2-01", name: "三角形", price: "12.50", integral: "2", end: "true"},
+							{id: "A-1-2-02", name: "四边形", price: "12.50", integral: "4", end: "true"},
+							{id: "A-1-2-03", name: "圆柱形", price: "12.50", integral: "9", end: "true"},
+							{id: "A-1-2-04", name: "整数", price: "12.50", integral: "4", end: "true"},
+							{id: "A-1-2-05", name: "小数", price: "12.50", integral: "5", end: "true"},
+							{id: "A-1-2-06", name: "函数", price: "12.50", integral: "2", end: "true"},
+						]
+					},
+					{id: "A-1-3", name: "英语", price: "12.50", integral: "2", end: "true"},
+					{id: "A-1-4", name: "物理", price: "12.50", integral: "2", end: "true"},
+					{id: "A-1-5", name: "化学", price: "12.50", integral: "2", end: "true"},
+					{id: "A-1-6", name: "生物", price: "12.50", integral: "2", end: "true"},
+					{id: "A-1-7", name: "政治", price: "12.50", integral: "2", end: "true"},
+					{id: "A-1-8", name: "历史", price: "12.50", integral: "2", end: "true"},
+					{id: "A-1-9", name: "地理", price: "12.50", integral: "2", end: "true"},
+				]
+			},
+			{id: "A-2", name: "JSON", price: "12.50", integral: "2", end: "true"},
+			{id: "A-3", name: "Date", price: "12.50", integral: "2", end: "true"},
+			{id: "A-4", name: "Control", price: "12.50", integral: "2", end: "true"},
+		]
+	},
+	{id: "B", name: "第二层", 
+		children: [
+			{id: "B-1", name: "Button", price: "12.50", integral: "2", end: "true"},
+			{id: "B-2", name: "ListBox", price: "12.50", integral: "2", end: "true"},
+			{id: "B-3", name: "CheckBoxList", price: "12.50", integral: "2", end: "true"},
+			{id: "B-4", name: "RadioList", price: "12.50", integral: "2", end: "true"},
+			{id: "B-5", name: "Calendar", price: "12.50", integral: "2", end: "true"},
+			{id: "B-6", name: "nameBox", price: "12.50", integral: "2", end: "true"},
+			{id: "B-7", name: "Password", price: "12.50", integral: "2", end: "true"},
+			{id: "B-8", name: "nameArea", price: "12.50", integral: "2", end: "true"},
+			{id: "B-9", name: "ComboBox", price: "12.50", integral: "2", end: "true"},
+			{id: "B-10", name: "DatePicker", price: "12.50", integral: "2", end: "true"},
+			{id: "B-11", name: "Spinner", price: "12.50", integral: "2", end: "true"},
+			{id: "B-12", name: "TreeSelect", price: "12.50", integral: "2", end: "true"},
+			{id: "B-13", name: "FileUpload", price: "12.50", integral: "2", end: "true"},
+		]
+	}
+]
