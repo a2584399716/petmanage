@@ -8,6 +8,8 @@
 <link rel="stylesheet" href="scripts/miniui/themes/default/miniui.css">
 <link rel="stylesheet" href="layui/css/layui.css" />
 <link rel="stylesheet" href="css/common.css">
+<link rel="stylesheet" type="text/css" href="css/shouyintai.css"/>
+<link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_2484884_ze19wd2y02.css"/>
 </head>
 <body style="background: #F6F7F9;">
 <div class="main">
@@ -106,7 +108,7 @@
 <div class="mask_box">
 	<div class="mask"></div>
 	<div class="box">
-		<div class="box_top">结算</div>
+		<!-- <div class="box_top">结算</div>
 		<div class="box_block box_block1">
 			<div class="block_left"><label for="">应付金额：</label></div>
 			<div class="block_right"><input type="text" class="layui-input" value="23131" readonly style="border: none;" /></div>
@@ -157,6 +159,67 @@
 		<div class="bot">
 			<input type="submit" value="提交">
 			<input type="text" value="取消">
+		</div> -->
+		<div class="item_list">
+			<div class="box_item">
+				<p>账单总价</p>
+				<p>￥8601</p>
+			</div>
+			<div class="box_item">
+				<p>应付金额</p>
+				<p>￥8601</p>
+			</div>
+			<div class="box_item">
+				<p>实收金额</p>
+				<p>￥8601</p>
+			</div>
+		</div>
+		<div class="pay_type">
+			<p>支付方式：</p>
+			<div class="type_list">
+				<div class="list_image">
+					<span class="iconfont iconalipay-circle-fill"></span>
+					<p>支付宝</p>
+				</div>
+				<div class="list_image">
+					<span class="iconfont iconweixin1x"></span>
+					<p>微信</p>
+				</div>
+				<div class="list_image">
+					<span class="iconfont iconyue"></span>
+					<p>余额</p>
+				</div>
+				<div class="list_image">
+					<span class="iconfont iconxianjin"></span>
+					<p>现金</p>
+				</div>
+			</div>
+		</div>
+		<div class="pay_people">
+			<p>收银员：</p>
+			<div class="pay_select">
+				<button class="layui-btn" id="pay_select">
+				  下拉菜单
+				  <i class="layui-icon layui-icon-down layui-font-12"></i>
+				</button>
+			</div>
+		</div>
+		<div class="pay_remark">
+			<p>备注：</p>
+			<div class="remark_box">
+				<textarea rows="6" cols="40">
+					
+				</textarea>
+			</div>
+		</div>
+		<div class="pay_set">
+			<div class="pay_money">
+				<p>订单金额：</p>
+				<p>￥8601</p>
+			</div>
+			<div class="pay_button">
+				<button type="button">结算</button>
+			</div>
 		</div>
 	</div>
 </div>
@@ -170,6 +233,13 @@
 		})
 		$(".bot input:nth-child(2)").click(function(){
 			$(".mask_box").hide();
+		})
+		$(".list_image").click(function(){
+			let $index=$(this).index();
+			let $className=$index==0?'list_image_active list_zfb':$index==1?'list_image_active list_wx':$index==2?'list_image_active list_yu_e':$index==3?'list_image_active list_cash':'';
+			$(this).addClass($className)
+			$(this).siblings().removeClass()
+			$(this).siblings().addClass("list_image")
 		})
 	})
 	
@@ -458,7 +528,7 @@
 <script>
 	layui.config({ base: 'layui/lay/modules/' }).extend({
 		selectInput: 'selectInput'
-	}).use(['form', 'selectInput'], function() {
+	}).use(['form', 'selectInput',"dropdown"], function() {
 		var $ = layui.$, form = layui.form, selectInput= layui.selectInput;
 		var ins = selectInput.render({
 			// 容器id，必传参数
@@ -552,8 +622,16 @@
 		name: 'list_common',
 		remoteSearch: false
 	});
-
-
+	let dropdown=layui.dropdown
+	dropdown.render({
+		elem: '#pay_select',
+		data:[
+			{
+				title: 'menu item 1',
+				id: 100
+			}
+		]
+	})
 	// 这是我项目中的需求做的一个组件，可能存在一些问题，如果有问题可以联系我，也可以去码云提问，有时间我会去看的，会尽量完善这个组件的
 
 	// 2020-10-23 更新：允许value和name值不同，显示用name，取值用value；新增参数initValue，设置input默认初始值
