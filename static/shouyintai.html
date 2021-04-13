@@ -161,6 +161,7 @@
 			<input type="text" value="取消">
 		</div> -->
 		<div class="item_list">
+			<!-- 这个是账单盒子 -->
 			<div class="box_item">
 				<p>账单总价</p>
 				<p>￥8601</p>
@@ -175,6 +176,7 @@
 			</div>
 		</div>
 		<div class="pay_type">
+			<!-- 这个是支付类型盒子 -->
 			<p>支付方式：</p>
 			<div class="type_list">
 				<div class="list_image">
@@ -196,6 +198,7 @@
 			</div>
 		</div>
 		<div class="pay_people">
+			<!-- 这个是收银员下拉盒子 -->
 			<p>收银员：</p>
 			<div class="pay_select">
 				<button class="layui-btn" id="pay_select">
@@ -205,6 +208,7 @@
 			</div>
 		</div>
 		<div class="pay_remark">
+			<!-- 这个是备注盒子 -->
 			<p>备注：</p>
 			<div class="remark_box">
 				<textarea rows="6" cols="40">
@@ -213,6 +217,7 @@
 			</div>
 		</div>
 		<div class="pay_set">
+			<!-- 这个是支付盒子 -->
 			<div class="pay_money">
 				<p>订单金额：</p>
 				<p>￥8601</p>
@@ -234,11 +239,16 @@
 		$(".bot input:nth-child(2)").click(function(){
 			$(".mask_box").hide();
 		})
+		//选择支付类型
 		$(".list_image").click(function(){
+			//点击时获取当前点击盒子下标
 			let $index=$(this).index();
+			//判断下标增加不同类名
 			let $className=$index==0?'list_image_active list_zfb':$index==1?'list_image_active list_wx':$index==2?'list_image_active list_yu_e':$index==3?'list_image_active list_cash':'';
 			$(this).addClass($className)
+			//删除所有兄弟的类名
 			$(this).siblings().removeClass()
+			//给兄弟元素加上默认类名
 			$(this).siblings().addClass("list_image")
 		})
 	})
@@ -528,7 +538,7 @@
 <script>
 	layui.config({ base: 'layui/lay/modules/' }).extend({
 		selectInput: 'selectInput'
-	}).use(['form', 'selectInput',"dropdown"], function() {
+	}).use(['form', 'selectInput'], function() {
 		var $ = layui.$, form = layui.form, selectInput= layui.selectInput;
 		var ins = selectInput.render({
 			// 容器id，必传参数
@@ -622,16 +632,6 @@
 		name: 'list_common',
 		remoteSearch: false
 	});
-	let dropdown=layui.dropdown
-	dropdown.render({
-		elem: '#pay_select',
-		data:[
-			{
-				title: 'menu item 1',
-				id: 100
-			}
-		]
-	})
 	// 这是我项目中的需求做的一个组件，可能存在一些问题，如果有问题可以联系我，也可以去码云提问，有时间我会去看的，会尽量完善这个组件的
 
 	// 2020-10-23 更新：允许value和name值不同，显示用name，取值用value；新增参数initValue，设置input默认初始值
