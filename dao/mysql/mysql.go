@@ -2,9 +2,11 @@ package mysql
 
 import (
 	"fmt"
-	"web_app/settings"
-
 	"go.uber.org/zap"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
+	"web_app/models"
+	"web_app/settings"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
@@ -28,6 +30,29 @@ func Init(cfg *settings.MySQLConfig) (err error) {
 	}
 	db.SetMaxOpenConns(cfg.MaxOpenConns)
 	db.SetMaxIdleConns(cfg.MaxIdleConns)
+	db2, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	if err != nil {
+		panic(err)
+	}
+	err = db2.AutoMigrate(&models.Admin{},
+		&models.UserInfo{},
+		models.Customer{},
+		&models.Good{},
+		&models.ApiGoodDetail{},
+		&models.GoodType{},
+		&models.Supplier{},
+		&models.SuitableType{},
+		&models.Varietie{},
+		&models.LivingAnimal{},
+		&models.ApiLivingDetail{},
+		&models.Serve{},
+		&models.ApiServeDetail{},
+		&models.ServeType{},
+		&models.User{},
+	)
+	if err != nil {
+		panic(err)
+	}
 	return
 }
 
